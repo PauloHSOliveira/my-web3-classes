@@ -8,7 +8,7 @@ import { client } from '../../lib/sanityClient'
 import { CgWebsite } from 'react-icons/cg'
 import { AiOutlineInstagram, AiOutlineTwitter } from 'react-icons/ai'
 import { HiDotsVertical } from 'react-icons/hi'
-// import Card from '../../components/Card'
+import Card from '../../components/Card'
 import Header from '../../components/Header'
 
 const style = {
@@ -55,7 +55,7 @@ export default function Collection() {
     {} as CollectionProps
   )
   const [nfts, setNfts] = useState([])
-  const [, setListings] = useState([])
+  const [listings, setListings] = useState([])
 
   const nftModule = useMemo(() => {
     if (!provider) return
@@ -92,7 +92,6 @@ export default function Collection() {
     if (!marketPlaceModule) return
     ;(async () => {
       const listings = await marketPlaceModule.getAllListings()
-      console.log(listings)
       setListings(listings)
     })()
   }, [marketPlaceModule])
@@ -112,7 +111,6 @@ export default function Collection() {
     }`
 
     const collectionData = await sanityClient.fetch(query)
-    console.log(collectionData)
     setCollection(collectionData[0])
   }
 
@@ -209,6 +207,16 @@ export default function Collection() {
         <div className={style.midRow}>
           <div className={style.description}>{collection?.description}</div>
         </div>
+      </div>
+      <div className="flex flex-wrap">
+        {nfts.map((nft, id) => (
+          <Card
+            nftItem={nft}
+            key={id}
+            title={collection?.title}
+            listings={listings}
+          />
+        ))}
       </div>
     </div>
   )
