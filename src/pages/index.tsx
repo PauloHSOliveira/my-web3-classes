@@ -1,9 +1,9 @@
-import { useWeb3 } from '@3rdweb/hooks'
 import { useEffect } from 'react'
 import Header from '../components/Header'
 import Hero from '../components/Hero'
 import { client } from '../lib/sanityClient'
 import toast, { Toaster } from 'react-hot-toast'
+import useWeb3Hooks from '../hooks/useWeb3Hook'
 
 const style = {
   wrapper: ``,
@@ -13,7 +13,7 @@ const style = {
 }
 
 function Home() {
-  const { address, connectWallet } = useWeb3()
+  const { address, connect } = useWeb3Hooks()
 
   const welcomeUser = (userName, toastHandler = toast) => {
     toastHandler.success(
@@ -25,10 +25,6 @@ function Home() {
         }
       }
     )
-  }
-
-  const connect = async () => {
-    await connectWallet('injected')
   }
 
   useEffect(() => {
